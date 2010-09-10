@@ -1,267 +1,148 @@
-<VisualStudioProject>
-    <ECSHARP
-        ProjectType = "Local"
-        ProductVersion = "7.10.3077"
-        SchemaVersion = "1.0"
-        ProjectGuid = "{9F4CD446-D26A-46CD-A2E6-9D815F617104}"
-    >
-        <Build>
-            <Settings
-                ApplicationIcon = "OBDGauge.ico"
-                AssemblyKeyContainerName = ""
-                AssemblyName = "OBDGauge"
-                AssemblyOriginatorKeyFile = ""
-                DelaySign = "false"
-                OutputType = "WinExe"
-                OutputFileFolder = "\Program Files\OBDGauge"
-                RootNamespace = "OBDGauge"
-                StartupObject = ""
-            >
-                <Platform Name = "Pocket PC" />
-                <Config
-                    Name = "Debug|Pocket PC"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "0"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "DEBUG;TRACE"
-                    DocumentationFile = ""
-                    DebugSymbols = "true"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    Optimize = "false"
-                    OutputPath = "bin\Debug\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6F1F6BB9-0F11-437C-A500-06BA5C1EB639}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>OBDGauge</RootNamespace>
+    <AssemblyName>OBDGauge</AssemblyName>
+    <ProjectTypeGuids>{4D628B5B-2FBC-4AA6-8C16-197242AEB884};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <PlatformFamilyName>PocketPC</PlatformFamilyName>
+    <PlatformID>b2c48bd2-963d-4549-9169-1fa021dce484</PlatformID>
+    <OSVersion>5.2</OSVersion>
+    <DeployDirSuffix>OBDGauge</DeployDirSuffix>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <NativePlatformName>Windows Mobile 6 Professional SDK</NativePlatformName>
+    <ApplicationIcon>OBDGauge.ico</ApplicationIcon>
+    <FormFactorID>
+    </FormFactorID>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;$(PlatformFamilyName)</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <FileAlignment>512</FileAlignment>
+    <WarningLevel>4</WarningLevel>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="InTheHand.Net.Personal">
+      <HintPath>InTheHand.Net.Personal.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+                <Compile Include = "AssemblyInfo.cs"
                 />
-                <Config
-                    Name = "Release|Pocket PC"
-                    AllowUnsafeBlocks = "false"
-                    BaseAddress = "0"
-                    CheckForOverflowUnderflow = "false"
-                    ConfigurationOverrideFile = ""
-                    DefineConstants = "TRACE"
-                    DocumentationFile = ""
-                    DebugSymbols = "false"
-                    FileAlignment = "4096"
-                    IncrementalBuild = "false"
-                    Optimize = "true"
-                    OutputPath = "bin\Release\"
-                    RegisterForComInterop = "false"
-                    RemoveIntegerChecks = "false"
-                    TreatWarningsAsErrors = "false"
-                    WarningLevel = "4"
+                <Compile Include = "CommAPI.cs"
                 />
-            </Settings>
-            <References>
-                <Reference
-                    Platform = "Pocket PC"
-                    Name = "MSCorLib"
-                    AssemblyName = "mscorlib"
-                    Private = "True"
+                <Compile Include = "DCB.cs"
                 />
-                <Reference
-                    Platform = "Pocket PC"
-                    Name = "System"
-                    AssemblyName = "System"
-                    Private = "False"
+                <Compile Include = "OBDAbout.cs"
                 />
-                <Reference
-                    Platform = "Pocket PC"
-                    Name = "System.Drawing"
-                    AssemblyName = "System.Drawing"
-                    Private = "False"
+                <Compile Include = "OBDCodes.cs"
                 />
-                <Reference
-                    Platform = "Pocket PC"
-                    Name = "System.Windows.Forms"
-                    AssemblyName = "System.Windows.Forms"
-                    Private = "False"
+                <Compile Include = "OBDGauge.cs"
                 />
-                <Reference
-                    Platform = "Pocket PC"
-                    Name = "System.XML"
-                    AssemblyName = "System.Xml"
-                    Private = "False"
+                <Compile Include = "OBDPrefs.cs"
                 />
-                <Reference
-                    Platform = "Pocket PC"
-                    Name = "System.Data"
-                    AssemblyName = "System.Data"
-                    Private = "False"
+                <Compile Include = "OBDPrefsElm.cs"
                 />
-                <Reference
-                    Platform = "Pocket PC-Designer"
-                    Name = "System.CF.Design"
-                    AssemblyName = "System.CF.Design"
-                    Private = "False"
+                <Compile Include = "OBDPrefsMultiplex.cs"
                 />
-                <Reference
-                    Platform = "Pocket PC-Designer"
-                    Name = "System.CF.Design.UI"
-                    AssemblyName = "System.CF.Design.UI"
-                    Private = "False"
+                <Compile Include = "OBDRead.cs"
                 />
-                <Reference
-                    Platform = "Pocket PC-Designer"
-                    Name = "System.CF.Windows.Forms"
-                    AssemblyName = "System.CF.Windows.Forms"
-                    Private = "False"
+                <Compile Include = "OBDSensor.cs"
                 />
-                <Reference
-                    Platform = "Pocket PC-Designer"
-                    Name = "System.CF.Drawing"
-                    AssemblyName = "System.CF.Drawing"
-                    Private = "False"
+                <Compile Include = "OBDSerial.cs"
                 />
-                <Reference
-                    Platform = "Pocket PC-Designer"
-                    Name = "System"
-                    AssemblyName = "System"
-                    Private = "False"
+                <Compile Include = "OBDTypes.cs"
                 />
-            </References>
-        </Build>
-        <Files>
-            <Include>
-                <File
-                    RelPath = "AssemblyInfo.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                <Compile Include = "Port.cs"
                 />
-                <File
-                    RelPath = "CommAPI.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                <Compile Include = "PortCapabilities.cs"
                 />
-                <File
-                    RelPath = "DCB.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
+                <Compile Include = "PortSettings.cs"
                 />
-                <File
-                    RelPath = "DTC-Generic.txt"
-                    BuildAction = "Content"
-                />
-                <File
-                    RelPath = "Exit.ico"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "OBDAbout.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OBDAbout.resx"
-                    DependentUpon = "OBDAbout.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "OBDCodes.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OBDCodes.resx"
-                    DependentUpon = "OBDCodes.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "OBDGauge.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OBDGauge.resx"
-                    DependentUpon = "OBDGauge.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "OBDPrefs.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OBDPrefs.resx"
-                    DependentUpon = "OBDPrefs.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "OBDPrefsElm.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OBDPrefsElm.resx"
-                    DependentUpon = "OBDPrefsElm.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "OBDPrefsMultiplex.cs"
-                    SubType = "Form"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OBDPrefsMultiplex.resx"
-                    DependentUpon = "OBDPrefsMultiplex.cs"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "OBDRead.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OBDSensor.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OBDSerial.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "OBDTypes.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "Page1.ico"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Page2.ico"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Page3.ico"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Page4.ico"
-                    BuildAction = "EmbeddedResource"
-                />
-                <File
-                    RelPath = "Port.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "PortCapabilities.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-                <File
-                    RelPath = "PortSettings.cs"
-                    SubType = "Code"
-                    BuildAction = "Compile"
-                />
-            </Include>
-        </Files>
-    </ECSHARP>
-</VisualStudioProject>
+  </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="OBDAbout.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OBDCodes.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OBDGauge.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OBDPrefs.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OBDPrefsElm.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="OBDPrefsMultiplex.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Page1.ico" />
+    <EmbeddedResource Include="Page2.ico" />
+    <EmbeddedResource Include="Page3.ico" />
+    <EmbeddedResource Include="Page4.ico" />
+    <EmbeddedResource Include="DTC-Generic.txt" />
+    <EmbeddedResource Include="Exit.ico" />
+  </ItemGroup>
+
+  <Import Project="$(MSBuildBinPath)\Microsoft.CompactFramework.CSharp.targets" />
+
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}">
+        <HostingProcess disable="1" />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
