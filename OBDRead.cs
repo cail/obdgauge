@@ -211,6 +211,8 @@ namespace OBDGauge
 		{
 			mTicks = DateTime.Now;
 			mMode = mode;
+			if (OBDSensor.GetSingleton() != null)
+			    OBDSensor.GetSingleton().SensorUpdateStatus("Mode: "+mMode);
 			switch (mMode)
 			{
 				case eMode.MODE_NULL:
