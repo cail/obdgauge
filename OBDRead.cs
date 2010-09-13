@@ -56,7 +56,7 @@ namespace OBDGauge
 			}
 		}
 
-		const int RXBUFSIZE = 32;
+		const int RXBUFSIZE = 128;
 
 		private Prefs_s mPrefs;
 
@@ -464,16 +464,20 @@ namespace OBDGauge
 			if (ticks.Subtract(lastTicks).TotalSeconds > 2)
 				rxindex = 0;
 			lastTicks = ticks;
+
 			if (n + rxindex > RXBUFSIZE)
 				n = RXBUFSIZE - rxindex;
 			Array.Copy(data, 0, rxbuf, rxindex, n);
 			i = rxindex;
 			rxindex += n;
+			
+
 			for (; i < rxindex; i++)
 			{
 				switch (rxbuf[i])
 				{
 					case 0x0d:
+					case 0x0A:
 						if (i > start)
 							ReceiveElm(rxbuf, start, i);
 						start = i + 1;
