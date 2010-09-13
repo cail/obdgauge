@@ -51,6 +51,7 @@ namespace OBDGauge
 		private System.Windows.Forms.Button setupButton;
 		private System.Windows.Forms.Button btButton;
 		//const String REGKEY = "Software\\OBD Gauge";
+		private static BluetoothDeviceInfo[] bluetoothDeviceInfo = { };
 
 		public OBDPrefs(Prefs_s newPrefs)
 		{
@@ -61,7 +62,20 @@ namespace OBDGauge
 			scanComboBox.SelectedIndex = mPrefs.Query;
 			graphComboBox.SelectedIndex = mPrefs.GraphType;
 			interfaceComboBox.SelectedIndex = (int)mPrefs.Interface;
-			portComboBox.SelectedItem = mPrefs.Port;
+
+			if (mPrefs.Port != null && mPrefs.Port.StartsWith("COM"))
+			{
+				portComboBox.SelectedItem = mPrefs.Port;
+			}else{
+				foreach(BluetoothDeviceInfo di in bluetoothDeviceInfo)
+				{
+					if (di.DeviceAddress.ToString() == mPrefs.Port)
+					{
+						portComboBox.SelectedItem = (string)di.DeviceName.ToString();
+						break;
+					}
+				}
+			}
 		}
 
 		protected override void Dispose( bool disposing )
@@ -184,8 +198,15 @@ namespace OBDGauge
 			this.portComboBox.Items.Add("COM6");
 			this.portComboBox.Items.Add("COM7");
 			this.portComboBox.Items.Add("COM8");
+
+			foreach(BluetoothDeviceInfo di in bluetoothDeviceInfo){
+			  this.portComboBox.Items.Add( di.DeviceName );
+			}
+
 			this.portComboBox.Location = new System.Drawing.Point(80, 184);
 			this.portComboBox.Size = new System.Drawing.Size(80, 22);
+			this.portComboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+
 			// 
 			// label6
 			// 
@@ -231,7 +252,7 @@ namespace OBDGauge
 			mPrefs.GraphType = (byte)graphComboBox.SelectedIndex;
 			mPrefs.Interface = (eInterface)interfaceComboBox.SelectedIndex;
 
-			if (((string)portComboBox.SelectedItem).StartsWith("COM"))
+			if (portComboBox.SelectedItem != null && ((string)portComboBox.SelectedItem).StartsWith("COM"))
 			{
 				mPrefs.Port = (string)portComboBox.SelectedItem;
 			}else{
@@ -320,8 +341,6 @@ namespace OBDGauge
 				prefsMultiplex.ShowDialog();
 			}
 		}
-
-		private BluetoothDeviceInfo[] bluetoothDeviceInfo = { };
 
 		private void btButton_Click(object sender, System.EventArgs e)
 		{
