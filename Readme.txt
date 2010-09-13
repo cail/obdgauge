@@ -1,4 +1,13 @@
 ==============================================================
+              OBD Gauge for Pocket PC version 1.3.1
+==============================================================
+Updates by cail:
+ - Native Bluetooth support via InTheHand libraries
+ - Protocol adaptation to work fine with obdsim.exe under win32
+ - Minor UI fixes to make it work smoothly under
+   WindowsCE environment (PNAs etc).
+
+==============================================================
               OBD Gauge for Pocket PC version 1.3
                 Copyright (c) 2005 Dana Peters
 ==============================================================
