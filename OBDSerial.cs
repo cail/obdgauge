@@ -107,29 +107,20 @@ namespace OBDGauge
 			if (bluetoothClient != null)
 			{
 				bluetoothClient.Close();
+				bluetoothClient = null;
 			}
 		}
-
-		byte[] outputData = null;
 
 		public int SerialCheck()
 		{
 			if (bluetoothClient != null && stream != null)
 			{
-				return stream.DataAvailable ? 1 : 0;
-				/*
-				byte[] buf = new byte[1024];
-				int len;
 				try{
-					len = stream.Read(buf, 0, buf.Length);
+					return stream.DataAvailable ? 1 : 0;
 				}catch(System.IO.IOException){
 					bluetoothClient = null;
 					return 0;
 				}
-				outputData = new byte[len];
-				Array.Copy(buf, 0, outputData, 0, len);
-				return len;
-				*/
 			}
 
 			if (mPort != null && mPort.IsOpen && mQueue.Count > 0)
@@ -144,13 +135,6 @@ namespace OBDGauge
 		{
 			if (bluetoothClient != null)
 			{
-				byte[] outputData_ = outputData;
-				if (outputData != null)
-				{
-					outputData = null;
-					return outputData_;
-				}
-
 				byte[] buf = new byte[1024];
 				int len;
 				try{
@@ -159,8 +143,7 @@ namespace OBDGauge
 					bluetoothClient = null;
 					return null;
 				}
-
-				outputData_ = new byte[len];
+				byte[] outputData_ = new byte[len];
 				Array.Copy(buf, 0, outputData_, 0, len);
 				return outputData_;
 			}else{
