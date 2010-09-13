@@ -22,6 +22,10 @@ using System.ComponentModel;
 using System.Windows.Forms;
 using System.IO;
 using OpenNETCF.IO.Serial;
+using InTheHand.Net;
+using InTheHand.Net.Sockets;
+using InTheHand.Net.Bluetooth;
+using InTheHand.Net.Ports;
 
 namespace OBDGauge
 {
@@ -45,6 +49,7 @@ namespace OBDGauge
 		private System.Windows.Forms.ComboBox portComboBox;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Button setupButton;
+		private System.Windows.Forms.Button btButton;
 		//const String REGKEY = "Software\\OBD Gauge";
 
 		public OBDPrefs(Prefs_s newPrefs)
@@ -56,7 +61,7 @@ namespace OBDGauge
 			scanComboBox.SelectedIndex = mPrefs.Query;
 			graphComboBox.SelectedIndex = mPrefs.GraphType;
 			interfaceComboBox.SelectedIndex = (int)mPrefs.Interface;
-			portComboBox.SelectedIndex = mPrefs.Port;
+			portComboBox.SelectedItem = mPrefs.Port;
 		}
 
 		protected override void Dispose( bool disposing )
@@ -84,6 +89,8 @@ namespace OBDGauge
 			this.setupButton = new System.Windows.Forms.Button();
 			this.portComboBox = new System.Windows.Forms.ComboBox();
 			this.label6 = new System.Windows.Forms.Label();
+			this.btButton = new System.Windows.Forms.Button();
+
 			// 
 			// languageComboBox
 			// 
@@ -168,6 +175,7 @@ namespace OBDGauge
 			// 
 			// portComboBox
 			// 
+
 			this.portComboBox.Items.Add("COM1");
 			this.portComboBox.Items.Add("COM2");
 			this.portComboBox.Items.Add("COM3");
@@ -185,6 +193,13 @@ namespace OBDGauge
 			this.label6.Size = new System.Drawing.Size(64, 20);
 			this.label6.Text = "Port:";
 			this.label6.TextAlign = System.Drawing.ContentAlignment.TopRight;
+
+			// btbutton
+			this.btButton.Location = new System.Drawing.Point(180, 184);
+			this.btButton.Size = new System.Drawing.Size(120, 20);
+			this.btButton.Text = "BlueTooth Scan";
+			this.btButton.Click += new System.EventHandler(this.btButton_Click);
+
 			// 
 			// FOBDPrefs
 			// 
@@ -201,6 +216,7 @@ namespace OBDGauge
 			this.Controls.Add(this.unitsComboBox);
 			this.Controls.Add(this.label1);
 			this.Controls.Add(this.languageComboBox);
+			this.Controls.Add(this.btButton);
 			this.Text = "Preferences";
 			this.Closed += new System.EventHandler(this.OBDPrefs_Closed);
 
@@ -214,7 +230,16 @@ namespace OBDGauge
 			mPrefs.Query = (byte)scanComboBox.SelectedIndex;
 			mPrefs.GraphType = (byte)graphComboBox.SelectedIndex;
 			mPrefs.Interface = (eInterface)interfaceComboBox.SelectedIndex;
-			mPrefs.Port = (byte)portComboBox.SelectedIndex;
+
+			foreach(BluetoothDeviceInfo di in bluetoothDeviceInfo)
+			{
+				if (di.DeviceName == portComboBox.SelectedItem)
+				{
+					mPrefs.Port = (string)di.DeviceAddress.ToString();
+					break;
+				}
+			}
+			
 		}
 
 		public static void SavePrefs(Prefs_s Prefs)
@@ -254,7 +279,7 @@ namespace OBDGauge
 				Prefs.Baud = (eBaud)reader.ReadByte();
 				Prefs.Address = reader.ReadByte();
 				Prefs.Protocol = (eProtocol)reader.ReadByte();
-				Prefs.Port = reader.ReadByte();
+				Prefs.Port = reader.ReadString();
 				reader.Close();
 			}
 			catch (System.IO.FileNotFoundException)
@@ -268,7 +293,7 @@ namespace OBDGauge
 				Prefs.Baud = eBaud.BAUD_19200;
 				Prefs.Address = 0x25;
 				Prefs.Protocol = eProtocol.PROTOCOL_DISABLE;
-				Prefs.Port = 0;
+				Prefs.Port = "COM1";
 			}
 			catch (System.IO.EndOfStreamException)
 			{
@@ -289,6 +314,26 @@ namespace OBDGauge
 				OBDPrefsMultiplex prefsMultiplex = new OBDPrefsMultiplex(mPrefs);
 				prefsMultiplex.ShowDialog();
 			}
+		}
+
+		private BluetoothDeviceInfo[] bluetoothDeviceInfo = { };
+
+		private void btButton_Click(object sender, System.EventArgs e)
+		{
+			BluetoothRadio.PrimaryRadio.Mode = RadioMode.Discoverable;
+			BluetoothClient bluetoothClient = new BluetoothClient();
+			Cursor.Current = Cursors.WaitCursor;
+			
+			bluetoothDeviceInfo = bluetoothClient.DiscoverDevices(10, true, true, true);
+
+			foreach(BluetoothDeviceInfo di in bluetoothDeviceInfo){
+			  this.portComboBox.Items.Add( di.DeviceName );
+			}
+			//comboBox1.DataSource = bluetoothDeviceInfo;
+			//comboBox1.DisplayMember = "DeviceName";
+			//comboBox1.ValueMember = "DeviceAddress";
+			this.portComboBox.Focus();
+			Cursor.Current = Cursors.Default;   
 		}
 
 	}

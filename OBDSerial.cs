@@ -19,6 +19,12 @@ using System;
 using System.Text;
 using System.Collections;
 using OpenNETCF.IO.Serial;
+using InTheHand.Net;
+using InTheHand.Net.Sockets;
+using InTheHand.Net.Bluetooth;
+using InTheHand.Net.Ports;
+using System.Net.Sockets;
+using System.Windows.Forms;
 
 namespace OBDGauge
 {
@@ -28,6 +34,9 @@ namespace OBDGauge
 	
 	public class OBDSerial
 	{
+		NetworkStream stream;
+		BluetoothClient bluetoothClient;
+
 		Port mPort;
 		Queue mQueue = new Queue();
 
@@ -54,14 +63,38 @@ namespace OBDGauge
 
 		public void SerialOpen(String portName, BaudRates baud)
 		{
-			BasicPortSettings portSettings = new BasicPortSettings();
-			portSettings.BaudRate = baud;
-			mPort = new Port(portName, portSettings);
-			mPort.RThreshold = 1;
-			mPort.SThreshold = 1;	// send 1 byte at a time
-			mPort.InputLen = 0;
-			mPort.Open();
-			mPort.DataReceived +=new Port.CommEvent(mPort_DataReceived);
+			if (portName.StartsWith("COM")){
+				BasicPortSettings portSettings = new BasicPortSettings();
+				portSettings.BaudRate = baud;
+				mPort = new Port(portName+":", portSettings);
+				mPort.RThreshold = 1;
+				mPort.SThreshold = 1;	// send 1 byte at a time
+				mPort.InputLen = 0;
+				mPort.Open();
+				mPort.DataReceived +=new Port.CommEvent(mPort_DataReceived);
+			}else{
+
+				try{
+					BluetoothAddress address = BluetoothAddress.Parse(portName);
+					bluetoothClient = new BluetoothClient();
+					bluetoothClient.SetPin(address, "0000");
+					BluetoothEndPoint btep = new BluetoothEndPoint(address, BluetoothService.SerialPort, 1);
+					bluetoothClient.Connect(btep);
+					stream = bluetoothClient.GetStream();
+					if (stream == null){
+						bluetoothClient.Close();
+						bluetoothClient = null;
+					}else{
+						if (stream.CanTimeout){
+							stream.WriteTimeout = 2;
+							stream.ReadTimeout = 2;
+						}
+					}
+				}catch(System.IO.IOException){
+					bluetoothClient = null;
+				}
+
+			}
 		}
 
 		public void SerialClose()
@@ -71,10 +104,34 @@ namespace OBDGauge
 				mPort.Close();
 				mPort.Dispose();
 			}
+			if (bluetoothClient != null)
+			{
+				bluetoothClient.Close();
+			}
 		}
+
+		byte[] outputData = null;
 
 		public int SerialCheck()
 		{
+			if (bluetoothClient != null && stream != null)
+			{
+				return stream.DataAvailable ? 1 : 0;
+				/*
+				byte[] buf = new byte[1024];
+				int len;
+				try{
+					len = stream.Read(buf, 0, buf.Length);
+				}catch(System.IO.IOException){
+					bluetoothClient = null;
+					return 0;
+				}
+				outputData = new byte[len];
+				Array.Copy(buf, 0, outputData, 0, len);
+				return len;
+				*/
+			}
+
 			if (mPort != null && mPort.IsOpen && mQueue.Count > 0)
 			{
 				byte[] inputData = (byte [])mQueue.Peek();
@@ -85,8 +142,31 @@ namespace OBDGauge
 
 		public byte[] SerialRead()
 		{
-			byte[] inputData = (byte [])mQueue.Dequeue();
-			return inputData;
+			if (bluetoothClient != null)
+			{
+				byte[] outputData_ = outputData;
+				if (outputData != null)
+				{
+					outputData = null;
+					return outputData_;
+				}
+
+				byte[] buf = new byte[1024];
+				int len;
+				try{
+					len = stream.Read(buf, 0, buf.Length);
+				}catch(System.IO.IOException){
+					bluetoothClient = null;
+					return null;
+				}
+
+				outputData_ = new byte[len];
+				Array.Copy(buf, 0, outputData_, 0, len);
+				return outputData_;
+			}else{
+				byte[] inputData = (byte [])mQueue.Dequeue();
+				return inputData;
+			}
 		}
 
 		public void SerialWrite(String text)
@@ -101,6 +181,14 @@ namespace OBDGauge
 				byte[] outputData = new byte[buflen];
 				Array.Copy(buf, 0, outputData, 0, buflen);
 				mPort.Output = outputData;
+			}
+			if (bluetoothClient != null && stream != null)
+			{
+				try{
+					stream.Write(buf, 0, buflen);
+				}catch(System.IO.IOException){
+					bluetoothClient = null;
+				}
 			}
 		}
 

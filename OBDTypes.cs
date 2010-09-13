@@ -41,7 +41,7 @@ namespace OBDGauge
 		public byte Language;
 		public byte Timeout;
 		public byte GraphType;
-		public byte Port;
+		public string Port;
 	};
 
 	enum eMode 

@@ -514,7 +514,7 @@ namespace OBDGauge
 
 		private String GetPort()
 		{
-			return "COM" + (mPrefs.Port + 1).ToString() + ":";
+			return mPrefs.Port;
 		}
 
 		private BaudRates GetBaud()
