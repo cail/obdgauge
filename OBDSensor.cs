@@ -306,17 +306,6 @@ namespace OBDGauge
 			SensorPage(mSensorPrefs.Page);
 			if (mSensorPrefs.SupportedPids == 0)
 				SensorInit(0xffffffff);
-			try
-			{
-				OBDRead.GetSingleton().ReadOpen();
-			}
-			catch
-			{
-				System.Windows.Forms.MessageBox.Show("Failed to open serial port.", "Error",
-					System.Windows.Forms.MessageBoxButtons.OK,
-					System.Windows.Forms.MessageBoxIcon.Exclamation,
-					System.Windows.Forms.MessageBoxDefaultButton.Button1);
-			}
 		}
 
 		private void Deinit()

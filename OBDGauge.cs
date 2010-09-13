@@ -364,6 +364,7 @@ namespace OBDGauge
 			OBDRead.GetSingleton().Prefs = mPrefs;
 			OBDSensor.GetSingleton().Prefs = mPrefs;
 			OBDSensor.GetSingleton().Init();
+			ReadOpen();
 		}
 
 		private void OBDGauge_Closed(object sender, System.EventArgs e)
@@ -455,12 +456,22 @@ namespace OBDGauge
 			OBDPrefs.SavePrefs(mPrefs);
 			OBDRead.GetSingleton().Prefs = mPrefs;
 			OBDSensor.GetSingleton().Prefs = mPrefs;
+
+			ReadOpen();
+		}
+
+		private void ReadOpen()
+		{
 			try
 			{
 				OBDRead.GetSingleton().ReadOpen();
 			}
 			catch
 			{
+				System.Windows.Forms.MessageBox.Show("Failed to open serial port.", "Error",
+					System.Windows.Forms.MessageBoxButtons.OK,
+					System.Windows.Forms.MessageBoxIcon.Exclamation,
+					System.Windows.Forms.MessageBoxDefaultButton.Button1);
 			}
 		}
 
