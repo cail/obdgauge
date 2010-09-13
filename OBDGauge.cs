@@ -93,8 +93,6 @@ namespace OBDGauge
 			this.pageToolBar.ImageList = pageImageList;
 			for (i = 0; i < iconName.Length; i++)
 				this.pageToolBar.Buttons[iconIndex[i]].ImageIndex = i;
-
-			tickTimer.Tick += new EventHandler(tickTimer_Tick);
 		}
 
 		protected override void Dispose( bool disposing )
@@ -261,7 +259,7 @@ namespace OBDGauge
 			// tickTimer
 			// 
 			this.tickTimer.Enabled = true;
-			this.tickTimer.Interval = 1;
+			this.tickTimer.Interval = 1000;
 			this.tickTimer.Tick += new System.EventHandler(this.tickTimer_Tick);
 			// 
 			// pageToolBar
@@ -387,14 +385,26 @@ namespace OBDGauge
 
 		bool mFirstTick = true;
 
+		DateTime mTicks = DateTime.Now;
+
 		private void tickTimer_Tick(object sender, System.EventArgs e)
 		{
+			if (OBDSensor.GetSingleton() == null) return;
+			if (DateTime.Now.Subtract(mTicks).TotalMilliseconds < 500) return;
+
+			this.tickTimer.Enabled = false;
+
 			if (mFirstTick)
 			{
 				mFirstTick = false;
 				OBDSensor.GetSingleton().SensorPage(0);
 			}
 			OBDRead.GetSingleton().ReadHandleTick();
+
+			
+			this.tickTimer.Enabled = true;
+
+			mTicks = DateTime.Now;
 		}
 
 		private void pageToolBar_ButtonClick(object sender, System.Windows.Forms.ToolBarButtonClickEventArgs e)
