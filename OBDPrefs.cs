@@ -231,12 +231,17 @@ namespace OBDGauge
 			mPrefs.GraphType = (byte)graphComboBox.SelectedIndex;
 			mPrefs.Interface = (eInterface)interfaceComboBox.SelectedIndex;
 
-			foreach(BluetoothDeviceInfo di in bluetoothDeviceInfo)
+			if (((string)portComboBox.SelectedItem).StartsWith("COM"))
 			{
-				if (di.DeviceName == portComboBox.SelectedItem)
+				mPrefs.Port = (string)portComboBox.SelectedItem;
+			}else{
+				foreach(BluetoothDeviceInfo di in bluetoothDeviceInfo)
 				{
-					mPrefs.Port = (string)di.DeviceAddress.ToString();
-					break;
+					if (di.DeviceName == portComboBox.SelectedItem)
+					{
+						mPrefs.Port = (string)di.DeviceAddress.ToString();
+						break;
+					}
 				}
 			}
 			
