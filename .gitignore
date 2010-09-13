@@ -1,0 +1,4 @@
+*.resources
+bin
+obj
+InTheHand.Net.Personal.dll
