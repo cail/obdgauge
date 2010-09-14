@@ -259,7 +259,7 @@ namespace OBDGauge
 			// tickTimer
 			// 
 			this.tickTimer.Enabled = true;
-			this.tickTimer.Interval = 1000;
+			this.tickTimer.Interval = 1;
 			this.tickTimer.Tick += new System.EventHandler(this.tickTimer_Tick);
 			// 
 			// pageToolBar
@@ -364,7 +364,6 @@ namespace OBDGauge
 			OBDRead.GetSingleton().Prefs = mPrefs;
 			OBDSensor.GetSingleton().Prefs = mPrefs;
 			OBDSensor.GetSingleton().Init();
-			ReadOpen();
 		}
 
 		private void OBDGauge_Closed(object sender, System.EventArgs e)
@@ -386,26 +385,20 @@ namespace OBDGauge
 
 		bool mFirstTick = true;
 
-		DateTime mTicks = DateTime.Now;
-
 		private void tickTimer_Tick(object sender, System.EventArgs e)
 		{
 			if (OBDSensor.GetSingleton() == null) return;
-			if (DateTime.Now.Subtract(mTicks).TotalMilliseconds < 500) return;
-
 			this.tickTimer.Enabled = false;
 
 			if (mFirstTick)
 			{
 				mFirstTick = false;
 				OBDSensor.GetSingleton().SensorPage(0);
+				ReadOpen();
 			}
 			OBDRead.GetSingleton().ReadHandleTick();
 
-			
 			this.tickTimer.Enabled = true;
-
-			mTicks = DateTime.Now;
 		}
 
 		private void pageToolBar_ButtonClick(object sender, System.Windows.Forms.ToolBarButtonClickEventArgs e)
@@ -462,6 +455,7 @@ namespace OBDGauge
 
 		private void ReadOpen()
 		{
+			OBDSensor.GetSingleton().SensorUpdateStatus("Initializing...");
 			try
 			{
 				OBDRead.GetSingleton().ReadOpen();

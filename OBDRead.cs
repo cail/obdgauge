@@ -225,7 +225,6 @@ namespace OBDGauge
 						SwitchMode(eMode.MODE_READ_PIDS);
 					else
 					SendAsciiElm("ATZ\r");
-					OBDSensor.GetSingleton().SensorUpdateStatus("Initializing...");
 					break;
 				case eMode.MODE_SET_TIMEOUT:
 					SendSetTimeout();
