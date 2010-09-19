@@ -273,6 +273,7 @@ namespace OBDGauge
 			String exePath = System.IO.Path.GetDirectoryName( 
 				System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 			String filePath = Path.Combine(exePath, "Preference.dat");
+			if (filePath.StartsWith("file:\\")) filePath = filePath.Substring(6);
 			BinaryWriter writer = new BinaryWriter(new FileStream(filePath, FileMode.Create));
 			writer.Write(Prefs.Language);
 			writer.Write((byte)Prefs.Units);
@@ -295,6 +296,7 @@ namespace OBDGauge
 				String exePath = System.IO.Path.GetDirectoryName( 
 					System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 				String filePath = Path.Combine(exePath, "Preference.dat");
+				if (filePath.StartsWith("file:\\")) filePath = filePath.Substring(6);
 				reader = new BinaryReader(new FileStream(filePath, FileMode.Open));
 				Prefs.Language = reader.ReadByte();
 				Prefs.Units = (eUnits)reader.ReadByte();

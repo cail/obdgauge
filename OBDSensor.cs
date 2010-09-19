@@ -319,6 +319,7 @@ namespace OBDGauge
 			String exePath = System.IO.Path.GetDirectoryName( 
 				System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 			String filePath = Path.Combine(exePath, "Layout.dat");
+			if (filePath.StartsWith("file:\\")) filePath = filePath.Substring(6);
 			BinaryWriter writer = new BinaryWriter(new FileStream(filePath, FileMode.Create));
 			writer.Write(mSensorPrefs.Page);
 			writer.Write(mSensorPrefs.SupportedPids);
@@ -339,6 +340,7 @@ namespace OBDGauge
 				String exePath = System.IO.Path.GetDirectoryName( 
 					System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 				String filePath = Path.Combine(exePath, "Layout.dat");
+				if (filePath.StartsWith("file:\\")) filePath = filePath.Substring(6);
 				BinaryReader reader = new BinaryReader(new FileStream(filePath, FileMode.Open));
 				mSensorPrefs.Page = reader.ReadByte();
 				mSensorPrefs.SupportedPids = reader.ReadUInt32();;
@@ -368,6 +370,7 @@ namespace OBDGauge
 			String exePath = System.IO.Path.GetDirectoryName( 
 				System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 			String filePath = Path.Combine(exePath, "Sensor.dat");
+			if (filePath.StartsWith("file:\\")) filePath = filePath.Substring(6);
 			BinaryWriter writer = new BinaryWriter(new FileStream(filePath, FileMode.Create));
 			int i;
 			for (i = 0; i < (int)eSensor.SENSORMAX; i++) 
@@ -389,6 +392,7 @@ namespace OBDGauge
 				String exePath = System.IO.Path.GetDirectoryName( 
 					System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 				String filePath = Path.Combine(exePath, "Sensor.dat");
+				if (filePath.StartsWith("file:\\")) filePath = filePath.Substring(6);
 				BinaryReader reader = new BinaryReader(new FileStream(filePath, FileMode.Open));
 				int i;
 				for (i = 0; i < (int)eSensor.SENSORMAX; i++) 

@@ -196,6 +196,7 @@ namespace OBDGauge
 			String exePath = System.IO.Path.GetDirectoryName( 
 				System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
 			String filePath = Path.Combine(exePath, "DTC-Generic.txt");
+			if (filePath.StartsWith("file:\\")) filePath = filePath.Substring(6);
 			StreamReader reader = new StreamReader(filePath);
 			String line;
 			bool found = false;
