@@ -1,7 +1,12 @@
 ==============================================================
-              OBD Gauge for Pocket PC version 1.3.1
+              OBD Gauge for Pocket PC version 1.3.2
 ==============================================================
-Updates by cail:
+Updates by cail v1.3.2:
+ - app now works on desktop windows
+ - persistent BT device list
+ - fix: fast refresh rate
+
+Updates by cail v1.3.1:
  - Native Bluetooth support via InTheHand libraries
  - Protocol adaptation to work fine with obdsim.exe under win32
  - Minor UI fixes to make it work smoothly under
