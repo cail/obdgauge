@@ -1,6 +1,9 @@
 ==============================================================
-              OBD Gauge for Pocket PC version 1.3.2
+              OBD Gauge for Pocket PC version 1.3.3
 ==============================================================
+Updates by cail v1.3.3:
+ - add BSP port names
+
 Updates by cail v1.3.2:
  - app now works on desktop windows
  - persistent BT device list
@@ -11,6 +14,8 @@ Updates by cail v1.3.1:
  - Protocol adaptation to work fine with obdsim.exe under win32
  - Minor UI fixes to make it work smoothly under
    WindowsCE environment (PNAs etc).
+
+http://github.com/cail/obdgauge
 
 ==============================================================
               OBD Gauge for Pocket PC version 1.3

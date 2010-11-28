@@ -198,6 +198,14 @@ namespace OBDGauge
 			this.portComboBox.Items.Add("COM6");
 			this.portComboBox.Items.Add("COM7");
 			this.portComboBox.Items.Add("COM8");
+			this.portComboBox.Items.Add("BSP1");
+			this.portComboBox.Items.Add("BSP2");
+			this.portComboBox.Items.Add("BSP3");
+			this.portComboBox.Items.Add("BSP4");
+			this.portComboBox.Items.Add("BSP5");
+			this.portComboBox.Items.Add("BSP6");
+			this.portComboBox.Items.Add("BSP7");
+			this.portComboBox.Items.Add("BSP8");
 
 			foreach(BluetoothDeviceInfo di in bluetoothDeviceInfo){
 			  this.portComboBox.Items.Add( di.DeviceName );
